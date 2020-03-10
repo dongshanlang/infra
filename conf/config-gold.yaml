@@ -8,8 +8,6 @@ mysql:
     max_connection: 100
     max_life_time: "10m"
 redis:
-  #key: gold:all:$uid, user's gold number, include all channels
-  #key	gold:anchor:$anchorID, anchor's gain sharing
   network: "tcp"
   addr: "172.171.122.10:6379"
   password: "thisispasswd"
