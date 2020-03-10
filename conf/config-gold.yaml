@@ -1,16 +1,9 @@
 debug: true
 log:
-  dir: "/data/log/config-admin/"
+  dir: "/data/log/
 mysql:
   gold:
-    #database: stt_choutqin
-    #table: member_money_balance, user's gold;
-    #table: member_money_balance_new, user's gold from other financing channel;
-    #table: member_score, anchor's gain sharing
-    #table: chouqin_transaction_journal_new, transaction record
-    #table: chouqin_recharge_log, user's recharge log
-    #table: chouqin_exchange_journal, anchor's gold change log
-    dsn: "web_user:$1$docker$2J0E1LRyED3Af.Mt/ua0O0@tcp(172.17.1.130:3304)/stt_chouqin?charset=utf8&parseTime=True&loc=Local"
+    dsn: "abc"
     max_idle_connection: 50
     max_connection: 100
     max_life_time: "10m"
@@ -18,8 +11,8 @@ redis:
   #key: gold:all:$uid, user's gold number, include all channels
   #key	gold:anchor:$anchorID, anchor's gain sharing
   network: "tcp"
-  addr: "172.17.1.130:6379"
-  password: "qietvredis"
+  addr: "172.171.122.10:6379"
+  password: "thisispasswd"
   db: 1
   dialTimeout: "200ms"
   readTimeout: "5s"
@@ -31,7 +24,7 @@ redis:
   idleTimeout: "120s"
 rpcServer:
   network: "tcp"
-  addr: ":8808"
+  addr: ":8080"
   timeout: "1s"
   idleTimeout: "60s"
   maxLifeTime: "60s"
@@ -39,4 +32,4 @@ rpcServer:
   KeepAliveInterval: "60s"
   KeepAliveTimeout: "60s"
   #address for distributed tracing system - jaeger
-  jaegerAddr: "172.17.3.75:6831"
+  jaegerAddr: "172.127.23.175:16831"
