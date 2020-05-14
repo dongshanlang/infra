@@ -1,12 +1,12 @@
 debug: true
 log:
-  dir: "/data/log/
-mysql:
+  dir: "/data/log/"
+sqlMap:
   gold:
     dsn: "abc"
-    max_idle_connection: 50
-    max_connection: 100
-    max_life_time: "10m"
+    maxIdle: 50
+    maxConn: 100
+    maxLifeTime: "10m"
 redis:
   network: "tcp"
   addr: "172.171.122.10:6379"

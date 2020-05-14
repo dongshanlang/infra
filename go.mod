@@ -3,6 +3,8 @@ module infra
 go 1.12
 
 require (
+	github.com/coreos/etcd v3.3.10+incompatible
+	github.com/ghodss/yaml v1.0.0
 	github.com/mitchellh/go-homedir v1.1.0
 	github.com/mitchellh/mapstructure v1.1.2
 	github.com/spf13/cobra v0.0.6

@@ -9,37 +9,13 @@ var (
 	Conf     *Config
 )
 
-//func init() {
-//	flag.StringVar(&confPath, "c", "", "config file path")
-//}
-
-//func Init() (err error) {
-//	file, err := ioutil.ReadFile(confPath)
-//	if err != nil {
-//		return
-//	}
-//	err = yaml.Unmarshal(file, &Conf)
-//	return
-//}
-//
-//type Duration time.Duration
-//
-//// UnmarshalText unmarshal text to duration.
-//func (d *Duration) UnmarshalText(text []byte) error {
-//	tmp, err := time.ParseDuration(string(text))
-//	if err == nil {
-//		*d = Duration(tmp)
-//	}
-//	return err
-//}
-
 // Config config
 type Config struct {
-	Debug     bool              `yaml:"debug"`
-	Log       *Log              `yaml:"log"`
-	SqlMap    map[string]*Mysql `yaml:"mysql"`
-	Redis     *Redis            `yaml:"redis"`
-	RPCServer *RPCServer        `yaml:"rpcServer"`
+	Debug     bool
+	Log       *Log
+	SqlMap    map[string]*Mysql `mapstructure:"sqlMap"`
+	Redis     *Redis
+	RPCServer *RPCServer
 }
 
 type Log struct {

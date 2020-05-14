@@ -16,8 +16,8 @@ limitations under the License.
 package cmd
 
 import (
-	"encoding/json"
 	"fmt"
+	"github.com/coreos/etcd/pkg/fileutil"
 	homedir "github.com/mitchellh/go-homedir"
 	"github.com/mitchellh/mapstructure"
 	"github.com/spf13/cobra"
@@ -25,7 +25,6 @@ import (
 	"infra/conf"
 	"infra/logger"
 	"os"
-	"reflect"
 )
 
 var cfgFile string
@@ -61,7 +60,7 @@ func init() {
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 
-	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.infra.yaml)")
+	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "./conf/config.yaml", "config file (default is $HOME/.infra.yaml)")
 
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
@@ -82,41 +81,30 @@ func initConfig() {
 		}
 
 		// Search config in home directory with name ".infra" (without extension).
+		viper.SetConfigName("config")
+		viper.SetConfigType("yaml")
+		viper.AddConfigPath("./conf/")
 		viper.AddConfigPath(home)
-		viper.SetConfigName(".infra")
 	}
 
-	viper.AutomaticEnv() // read in environment variables that match
-
+	//viper.AutomaticEnv() // read in environment variables that match
 	// If a config file is found, read it in.
 	if err := viper.ReadInConfig(); err == nil {
 		fmt.Println("Using config file:", viper.ConfigFileUsed())
 	}
-	conf.Conf = &conf.Config{}
+	fmt.Println("Using config file:", viper.ConfigFileUsed(), fileutil.Exist(viper.ConfigFileUsed()))
 
+	c := &conf.Config{}
 	opt := viper.DecodeHook(mapstructure.ComposeDecodeHookFunc(
 		mapstructure.StringToTimeDurationHookFunc(),
 		mapstructure.StringToSliceHookFunc(","),
 		// Custom Decode Hook Function
-		func(rf reflect.Kind, rt reflect.Kind, data interface{}) (interface{}, error) {
-			if rf != reflect.String || rt != reflect.Map {
-				return data, nil
-			}
-			m := map[string]string{}
-			raw := data.(string)
-			if raw == "" {
-				return m, nil
-			}
-			return m, json.Unmarshal([]byte(raw), &m)
-		},
 	))
 
-
-
-	if err:=viper.Unmarshal(conf.Conf, opt);err!=nil{
+	if err:=viper.Unmarshal(&c, opt);err!=nil{
 		fmt.Println("unmarshal config file failed, err: ", err.Error())
 	}else{
-		fmt.Println(conf.Conf.Redis.Addr)
+		fmt.Println(c.Redis.Addr)
 	}
 
 	initLog()
